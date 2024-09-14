@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK One-Hit Wonders Quiz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Baloo 2', sans-serif;
+            background-color: #38B6FF; /* Background color */
+            color: black;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        #yellow-box {
+            width: 300px;
+            height: 300px;
+            background-color: #FED405; /* Yellow color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            border: 5px solid black; /* Black edging */
+            transition: transform 0.1s ease-in-out;
+        }
+
+        #question-answer {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /* Keyframes for the bounce animation */
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Class to trigger the bounce animation */
+        .animate-bounce {
+            animation: bounce 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="yellow-box">ONE-HIT WONDERS UK QUIZ</div>
+
+    <div id="question-answer"></div>
+
+    <script>
+        const yellowBox = document.getElementById("yellow-box");
+        const questionAnswerDiv = document.getElementById("question-answer");
+
+        // Array of questions and answers about UK one-hit wonders
+        const oneHitWondersUK = [
+            { question: "Which band had a hit with 'Come on Eileen' in 1982?", answer: "Dexys Midnight Runners" },
+            { question: "Who sang 'Tainted Love' in 1981?", answer: "Soft Cell" },
+            { question: "Which artist is known for the 1991 hit 'Unfinished Sympathy'?", answer: "Massive Attack" },
+            { question: "Which song did Right Said Fred release in 1991?", answer: "I'm Too Sexy" },
+            { question: "Which artist had a hit with 'Blue' in 1999?", answer: "Eiffel 65" },
+            { question: "Who performed 'Nothing Compares 2 U' in 1990?", answer: "Sinead O'Connor" },
+            { question: "Which band is known for 'Relax' in 1983?", answer: "Frankie Goes to Hollywood" },
+            { question: "Who had a hit with 'House of Jealous Lovers' in 2003?", answer: "The Rapture" },
+            { question: "Which band released 'Witch Doctor' in 1998?", answer: "Arctic Monkeys" },
+            { question: "Who had a one-hit wonder with 'Video Killed the Radio Star'?", answer: "The Buggles" },
+            { question: "Which artist released 'I Like to Move It' in 1994?", answer: "Reel 2 Real" },
+            { question: "Which song did The Weather Girls release in 1982?", answer: "It's Raining Men" },
+            { question: "Who is known for the 1995 hit 'Boom, Boom, Boom, Boom!'?", answer: "Vengaboys" },
+            { question: "Which band had a hit with 'Don't You Want Me' in 1981?", answer: "The Human League" },
+            { question: "Who sang 'No Limit' in 1993?", answer: "2 Unlimited" },
+            { question: "Which artist is known for the 1990 hit 'The Power'?", answer: "Snap!" },
+            { question: "Which band released 'You Get What You Give' in 1998?", answer: "New Radicals" },
+            { question: "Who had a one-hit wonder with 'St Elmo's Fire' in 1985?", answer: "John Parr" },
+            { question: "Which band is known for the 1984 hit 'I Want Candy'?", answer: "Bow Wow Wow" },
+            { question: "Who performed 'There She Goes' in 1990?", answer: "The La's" },
+            { question: "Which artist had a hit with 'Back to Life' in 1989?", answer: "Soul II Soul" },
+            { question: "Who sang 'I'm Gonna Be (500 Miles)' in 1993?", answer: "The Proclaimers" },
+            { question: "Which band had a hit with 'The Only Way Is Up' in 1986?", answer: "Yazz and the Plastic Population" },
+            { question: "Who is known for the 1983 hit 'Break My Stride'?", answer: "Matthew Wilder" },
+            { question: "Which artist released 'Sweet Sensation' in 1990?", answer: "The Beatmasters" },
+            { question: "Which song did The Shamen release in 1992?", answer: "Ebenezer Goode" },
+            { question: "Who had a hit with 'In a Big Country' in 1983?", answer: "Big Country" },
+            { question: "Which artist is known for 'Temptation' in 1983?", answer: "Heaven 17" },
+            { question: "Who performed 'I Can’t Tell You Why' in 1985?", answer: "The Mighty Wah!" },
+            { question: "Which band had a hit with 'Funky Town' in 1980?", answer: "Lipps Inc." },
+            { question: "Who sang 'French Kiss' in 1991?", answer: "Lil Louis" },
+            { question: "Which artist had a hit with 'Please Don’t Go' in 1984?", answer: "KWS" },
+            { question: "Who released 'Perfect' in 1983?", answer: "Fairground Attraction" },
+            { question: "Which band is known for 'How Bizarre' in 1996?", answer: "O MC" },
+            { question: "Who had a one-hit wonder with 'Let's Groove' in 1981?", answer: "Earth, Wind & Fire" },
+            { question: "Which artist is known for the 1992 hit 'Love U More'?", answer: "Sunshine" },
+            { question: "Who performed 'All Around the World' in 1990?", answer: "Lisa Stansfield" },
+            { question: "Which band released 'Dancing in the City' in 1984?", answer: "Marshall Hain" },
+            { question: "Who had a hit with 'I’m Still Standing' in 1983?", answer: "Elton John" },
+            { question: "Which artist had a one-hit wonder with 'Gimme Your Love' in 1984?", answer: "The Christmas Tree" },
+            { question: "Who sang 'Don't Leave Me This Way' in 1986?", answer: "Thelma Houston" },
+            { question: "Which band is known for 'Funky Cold Medina' in 1989?", answer: "Tone Loc" },
+            { question: "Who performed 'Love is the Drug' in 1975?", answer: "Roxy Music" },
+            { question: "Which artist had a hit with 'The Model' in 1981?", answer: "Kraftwerk" },
+            { question: "Who had a one-hit wonder with 'It Takes Two' in 1989?", answer: "Rob Base and DJ E-Z Rock" },
+            { question: "Which band released 'Say It Isn't So' in 1983?", answer: "Duran Duran" },
+            { question: "Who sang 'The Safety Dance' in 1982?", answer: "Men Without Hats" },
+            { question: "Which artist had a hit with 'Walk Away' in 1990?", answer: "Toni Braxton" },
+            { question: "Who performed 'We Don't Talk Anymore' in 1981?", answer: "Cliff Richard" },
+            { question: "Which band had a one-hit wonder with 'We Built This City' in 1985?", answer: "Starship" },
+            { question: "Who is known for the 1983 hit 'Der Kommissar'?", answer: "After the Fire" },
+            { question: "Which artist released 'I'd Do Anything for Love' in 1993?", answer: "Meat Loaf" },
+            { question: "Who had a hit with 'Love Rollercoaster' in 1996?", answer: "Red Hot Chili Peppers" },
+            { question: "Which band is known for 'Sadeness' in 1991?", answer: "Enigma" },
+            { question: "Who performed 'Mickey' in 1982?", answer: "Toni Basil" },
+            { question: "Which artist had a one-hit wonder with 'You Spin Me Round (Like a Record)' in 1985?", answer: "Dead or Alive" },
+            { question: "Who sang 'Ebony and Ivory' in 1982?", answer: "Paul McCartney and Stevie Wonder" },
+            { question: "Which band released 'My Coo Ca Choo' in 1973?", answer: "Middle of the Road" },
+            { question: "Who had a hit with 'Cry Me a River' in 2002?", answer: "Justin Timberlake" },
+            { question: "Which artist is known for 'Baby Come Back' in 1979?", answer: "Player" },
+            { question: "Who performed 'Don't You Want Me' in 1981?", answer: "The Human League" },
+            { question: "Which band had a one-hit wonder with 'Kung Fu Fighting' in 1974?", answer: "Carl Douglas" },
+            { question: "Who is known for the 1990 hit 'Black Box'?", answer: "Black Box" },
+            { question: "Which artist released 'Addicted to Love' in 1986?", answer: "Robert Palmer" },
+            { question: "Who had a hit with 'Don't Leave Me This Way' in 1976?", answer: "Thelma Houston" },
+            { question: "Which band is known for 'Good Thing' in 1989?", answer: "Fine Young Cannibals" },
+            { question: "Who performed 'Rock Me Amadeus' in 1985?", answer: "Falco" },
+            { question: "Which artist had a one-hit wonder with 'You Get What You Give' in 1998?", answer: "New Radicals" },
+            { question: "Who sang 'Whip It' in 1980?", answer: "Devo" },
+            { question: "Which band released 'Pop Muzik' in 1979?", answer: "M" },
+            { question: "Who had a hit with 'Jump to It' in 1982?", answer: "Aretha Franklin" },
+            { question: "Which artist is known for 'Blue Monday' in 1983?", answer: "New Order" },
+            { question: "Who performed 'I Just Died in Your Arms' in 1986?", answer: "Cutting Crew" },
+            { question: "Which band had a one-hit wonder with 'You Make Me Feel (Mighty Real)' in 1978?", answer: "Sylvester" },
+            { question: "Who is known for the 1990 hit 'Gonna Make You Sweat'?", answer: "C+C Music Factory" },
+            { question: "Which artist had a hit with 'Dancing in the Dark' in 1984?", answer: "Bruce Springsteen" },
+            { question: "Who performed 'The Promise' in 1988?", answer: "When in Rome" },
+            { question: "Which band released 'Come on Eileen' in 1982?", answer: "Dexys Midnight Runners" },
+            { question: "Who had a hit with 'Walk Like an Egyptian' in 1986?", answer: "The Bangles" },
+            { question: "Which artist is known for 'I Want Candy' in 1982?", answer: "Bow Wow Wow" },
+            { question: "Who sang 'Walking on Sunshine' in 1983?", answer: "Katrina and the Waves" },
+            { question: "Which band released 'All Out of Love' in 1980?", answer: "Air Supply" },
+            { question: "Who had a hit with 'Love Will Tear Us Apart' in 1980?", answer: "Joy Division" },
+            { question: "Which artist is known for 'Just Can't Get Enough' in 1981?", answer: "Depeche Mode" },
+            { question: "Who performed 'How Deep Is Your Love' in 1977?", answer: "Bee Gees" },
+            { question: "Which band had a one-hit wonder with 'Too Shy' in 1983?", answer: "Kajagoogoo" },
+            { question: "Who is known for 'Never Gonna Give You Up' in 1987?", answer: "Rick Astley" },
+            { question: "Which artist had a hit with 'Stand and Deliver' in 1981?", answer: "Adam and the Ants" },
+            { question: "Who performed 'You Spin Me Round (Like a Record)' in 1985?", answer: "Dead or Alive" },
+            { question: "Which band is known for 'Total Eclipse of the Heart' in 1983?", answer: "Bonnie Tyler" },
+            { question: "Who had a hit with 'Lullaby' in 1989?", answer: "The Cure" },
+            { question: "Which artist is known for 'Love Is in the Air' in 1978?", answer: "John Paul Young" },
+            { question: "Who performed 'Pump Up the Volume' in 1987?", answer: "M/A/R/R/S" },
+            { question: "Which band released 'Hey Mickey' in 1982?", answer: "Toni Basil" },
+            { question: "Who had a hit with 'I’m in the Mood for Dancing' in 1979?", answer: "The Nolans" },
+            { question: "Which artist is known for 'Cars' in 1980?", answer: "Gary Numan" },
+            { question: "Who sang 'Celebration' in 1980?", answer: "Kool & The Gang" },
+            { question: "Which band had a one-hit wonder with 'Funky Town' in 1980?", answer: "Lipps Inc." },
+            { question: "Who is known for 'The Lion Sleeps Tonight' in 1982?", answer: "Tight Fit" },
+            { question: "Which artist had a hit with 'Don't You Want Me' in 1981?", answer: "The Human League" },
+            { question: "Who performed 'Do That to Me One More Time' in 1980?", answer: "The Captain & Tennille" },
+            { question: "Which band is known for 'Space Oddity' in 1969?", answer: "David Bowie" },
+            { question: "Who had a hit with 'Pop Music' in 1979?", answer: "M" },
+            { question: "Which artist is known for 'I Can’t Tell You Why' in 1980?", answer: "The Mighty Wah!" },
+            { question: "Who performed 'Tainted Love' in 1981?", answer: "Soft Cell" },
+            { question: "Which band released 'Enola Gay' in 1980?", answer: "OMD" },
+            { question: "Who had a hit with 'Spirits in the Material World' in 1981?", answer: "The Police" },
+            { question: "Which artist is known for 'Dancing with Tears in My Eyes' in 1984?", answer: "Ultravox" },
+            { question: "Who performed 'The Model' in 1981?", answer: "Kraftwerk" },
+            { question: "Which band had a one-hit wonder with 'I Ran (So Far Away)' in 1982?", answer: "A Flock of Seagulls" },
+            { question: "Who is known for 'We Don't Talk Anymore' in 1981?", answer: "Cliff Richard" }
+        ];
+
+        let shuffledQuestions = [];
+        let questionIndex = 0;
+
+        // Shuffle the questions array
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Initialize questions
+        function initializeQuestions() {
+            shuffledQuestions = shuffleArray([...oneHitWondersUK]);
+            questionIndex = 0;
+            displayQuestion();
+        }
+
+        // Function to display the current question
+        function displayQuestion() {
+            if (shuffledQuestions.length === 0) {
+                questionAnswerDiv.innerHTML = "<strong>No more questions!</strong>";
+                return;
+            }
+            const currentQA = shuffledQuestions[questionIndex];
+            questionAnswerDiv.innerHTML = `<strong>Question:</strong> ${currentQA.question}<br><strong>Answer:</strong> ${currentQA.answer}`;
+        }
+
+        // Bounce animation on click
+        yellowBox.addEventListener("click", () => {
+            yellowBox.classList.add("animate-bounce");
+            setTimeout(() => yellowBox.classList.remove("animate-bounce"), 300);
+            
+            questionIndex++;
+            if (questionIndex >= shuffledQuestions.length) {
+                questionIndex = 0; // Reset to first question if out of questions
+            }
+            displayQuestion();
+        });
+
+        // Initialize the quiz
+        initializeQuestions();
+    </script>
+
+</body>
+</html>
